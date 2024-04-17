@@ -11,17 +11,20 @@ interface Location {
     latitude: number;
     longitude: number;
 }
+interface AddressInfo {
+    address_name: string;
+}
 
 const AddressMain = () => {
     const [addressEditPop, setAddressEditPop] = useState(false)
     const [showMap, setShowMap] = useState(false);
     const [location, setLocation] = useState<Location | null>(null);
-    const [address, setAddress] = useState(null);
+    const [address, setAddress] = useState<AddressInfo>(null);
 
     const handleOpenBottomSheet = () => {
         setAddressEditPop(true);
     };
-    const handleOpenMap = () => { // 추가
+    const handleOpenMap = () => {
         setShowMap(true);
     };
     useEffect(() => {
@@ -36,6 +39,7 @@ const AddressMain = () => {
     const errorHandler = (error: GeolocationPositionError) => {
         console.log(error);
     };
+    console.log(address)
 
     const getAddress = () => {
         if (!location) {
@@ -55,6 +59,11 @@ const AddressMain = () => {
         geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
     };
 
+    useEffect(() => {
+        if (location) {
+            getAddress();
+        }
+    }, [location]);
     const renderMap = () => {
         if (!location) return null;
 
@@ -66,7 +75,8 @@ const AddressMain = () => {
                     level={3}
                 >
                     <MapMarker position={{lat: location.latitude, lng: location.longitude}}/>
-                    <button onClick={getAddress}>현재 좌표의 주소 얻기</button>
+                    {address && address.address_name}
+
                 </Map>
 
             </div>

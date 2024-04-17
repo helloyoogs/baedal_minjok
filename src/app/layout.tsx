@@ -18,7 +18,7 @@ export default function RootLayout({
             />
             <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
             <title>Document</title>
-            <script type="text/javascript" src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}`}></script>
+            <script type="text/javascript" src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&libraries=services&autoload=true`}></script>
         </head>
         <body>
         {/*<SessionProvider>*/}
