@@ -7,6 +7,7 @@ export default function RootLayout({
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const KAKAO_JS_KEY = process.env.KAKAO_JS_KEY || '';
     return (
         <html lang="en">
         <head>
@@ -17,8 +18,7 @@ export default function RootLayout({
             />
             <meta httpEquiv="X-UA-Compatible" content="ie=edge"/>
             <title>Document</title>
-            <script type="text/javascript"
-                    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d8dd58190fcb7587e2160d2dd7c3e0c4"></script>
+            <script type="text/javascript" src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}`}></script>
         </head>
         <body>
         {/*<SessionProvider>*/}

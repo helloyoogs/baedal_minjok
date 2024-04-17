@@ -11,17 +11,12 @@ interface Location {
     latitude: number;
     longitude: number;
 }
-interface Coordinates {
-    center: {
-        lat: number;
-        lng: number;
-    };
-}
 
 const AddressMain = () => {
     const [addressEditPop, setAddressEditPop] = useState(false)
     const [showMap, setShowMap] = useState(false);
     const [location, setLocation] = useState<Location | null>(null);
+    const [address, setAddress] = useState(null);
 
     const handleOpenBottomSheet = () => {
         setAddressEditPop(true);
@@ -42,6 +37,24 @@ const AddressMain = () => {
         console.log(error);
     };
 
+    const getAddress = () => {
+        if (!location) {
+            console.log('위치 정보가 없습니다.');
+            return;
+        }
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        const coord = new kakao.maps.LatLng(location.latitude, location.longitude);
+        const callback = function (result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                setAddress(result[0].address);
+            } else {
+                console.log('주소를 가져오는데 실패했습니다.');
+            }
+        };
+        geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    };
+
     const renderMap = () => {
         if (!location) return null;
 
@@ -53,6 +66,7 @@ const AddressMain = () => {
                     level={3}
                 >
                     <MapMarker position={{lat: location.latitude, lng: location.longitude}}/>
+                    <button onClick={getAddress}>현재 좌표의 주소 얻기</button>
                 </Map>
 
             </div>
