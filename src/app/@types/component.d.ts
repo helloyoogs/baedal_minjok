@@ -1,4 +1,5 @@
 import React, {Dispatch, SetStateAction} from "react";
+import {FontAwesomeIconProps} from "@fortawesome/react-fontawesome";
 
 
 
@@ -41,7 +42,8 @@ interface FontAwesomeBtnProps{
     onClick?: MouseEvent<HTMLButtonElement>
     leftTitle?:string
     rightTitle?:string,
-    label?:string
+    label?:string,
+    isNotButton?:boolean
 }
 
 interface CBarButtonProps{

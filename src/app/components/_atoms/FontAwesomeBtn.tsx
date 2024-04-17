@@ -2,13 +2,15 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {FontAwesomeBtnProps} from "@/app/@types/component";
 
-const FontAwesomeBtn = ({icon, onClick,leftTitle,rightTitle,label}: FontAwesomeBtnProps) => {
+const FontAwesomeBtn = ({icon, onClick, leftTitle, rightTitle, label, isNotButton}: FontAwesomeBtnProps) => {
+    const Element = isNotButton ? 'div' : 'button';
+
     return (
-        <button onClick={onClick} className={'flex items-center gap-[3px]'} aria-label={label}>
+        <Element onClick={onClick} className={'flex items-center gap-[3px]'} aria-label={label}>
             {leftTitle && leftTitle}
-            <FontAwesomeIcon icon={icon}/>
+            {icon && <FontAwesomeIcon icon={icon}/>}
             {rightTitle && rightTitle}
-        </button>
+        </Element>
     );
 };
 
