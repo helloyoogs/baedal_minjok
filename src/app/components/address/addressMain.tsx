@@ -19,7 +19,8 @@ const AddressMain = () => {
     const [addressEditPop, setAddressEditPop] = useState(false)
     const [showMap, setShowMap] = useState(false);
     const [location, setLocation] = useState<Location | null>(null);
-    const [address, setAddress] = useState<AddressInfo>(null);
+    const [address, setAddress] = useState<AddressInfo>();
+    const mapRef = useRef<any>(null);
 
     const handleOpenBottomSheet = () => {
         setAddressEditPop(true);
@@ -64,6 +65,32 @@ const AddressMain = () => {
             getAddress();
         }
     }, [location]);
+    const handleCenterChanged = () => {
+        const map = mapRef.current; // mapRef를 사용하여 Map 컴포넌트의 참조를 얻습니다.
+
+        if (map) {
+            const center = map.getCenter(); // 현재 지도의 중심 좌표를 가져옵니다.
+
+            // location 업데이트
+            setLocation({
+                latitude: center.getLat(),
+                longitude: center.getLng(),
+            });
+
+            // address 업데이트
+            const geocoder = new kakao.maps.services.Geocoder();
+            const coord = new kakao.maps.LatLng(center.getLat(), center.getLng());
+
+            geocoder.coord2Address(coord.getLng(), coord.getLat(), (result, status) => {
+                if (status === kakao.maps.services.Status.OK) {
+                    setAddress(result[0].address);
+                } else {
+                    console.log('주소를 가져오는데 실패했습니다.');
+                }
+            });
+        }
+    };
+
     const renderMap = () => {
         if (!location) return null;
 
@@ -72,7 +99,9 @@ const AddressMain = () => {
                 <Map
                     center={{lat: location?.latitude, lng: location?.longitude}}
                     style={{width: '800px', height: '600px'}}
+                    onCenterChanged={handleCenterChanged}
                     level={3}
+                    ref={mapRef}
                 >
                     <MapMarker position={{lat: location.latitude, lng: location.longitude}}/>
                     {address && address.address_name}
