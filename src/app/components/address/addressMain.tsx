@@ -40,7 +40,6 @@ const AddressMain = () => {
     const errorHandler = (error: GeolocationPositionError) => {
         console.log(error);
     };
-    console.log(address)
 
     const getAddress = () => {
         if (!location) {
