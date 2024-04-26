@@ -6,7 +6,7 @@ import {Dispatch, SetStateAction, useRef} from "react";
 interface addressEditProps {
     setAddressEditPop: Dispatch<SetStateAction<boolean>>;
     }
-const AddressEdit = ({setAddressEditPop}:addressEditProps) =>{
+const AddressEditPop = ({setAddressEditPop}:addressEditProps) =>{
     const addressEditPopRef = useRef<HTMLDivElement>(null)
 
     const handleCloseAddressEdit = () => {
@@ -20,4 +20,4 @@ const AddressEdit = ({setAddressEditPop}:addressEditProps) =>{
     )
 }
 
-export default AddressEdit;
+export default AddressEditPop;
